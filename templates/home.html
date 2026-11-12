@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="application-name" content="{{ company_name }}">
+    <meta name="description" content="{{ company_name }} — Tax Consultancy and Accounting Services.">
+    <meta name="theme-color" content="#151515">
+    <title>{{ company_name }} | Tax Consultancy &amp; Accounting</title>
+    <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='images/tushar-borse-and-co-logo.jpeg') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/tushar-borse-and-co-logo.jpeg') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/public.css') }}">
+</head>
+<body>
+    <header class="public-header">
+        <nav class="public-nav" aria-label="Main navigation">
+            <a class="public-brand" href="#home" aria-label="{{ company_name }} home">
+                <img src="{{ url_for('static', filename='images/tushar-borse-and-co-logo.jpeg') }}" alt="">
+                <span>{{ company_name }}</span>
+            </a>
+            <button class="nav-toggle" id="publicNavToggle" type="button" aria-label="Open navigation"
+                aria-expanded="false" aria-controls="publicNavLinks">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+            <div class="public-nav-links" id="publicNavLinks">
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#services">Our Services</a>
+                <a href="#why-us">Why Choose Us</a>
+                <a href="#contact">Contact</a>
+                <a class="nav-login" href="{{ url_for('login') }}">Login <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+            <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
+            <div class="hero-content reveal">
+                <p class="eyebrow"><span></span> Tax Consultancy &amp; Accounting Services</p>
+                <h1>Your Trusted Partner in <span>Tax &amp; Financial Services</span></h1>
+                <p class="hero-copy">
+                    Practical support for tax consultancy, income tax return filing, accounting and
+                    financial documentation delivered with care and clarity.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#services">Explore Services <i class="fas fa-arrow-down" aria-hidden="true"></i></a>
+                    <a class="button button-outline" href="{{ url_for('login') }}">Login <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                </div>
+                <div class="hero-note"><i class="fas fa-shield-halved" aria-hidden="true"></i> Professional, organized and client-focused support</div>
+            </div>
+            <div class="hero-art" role="img" aria-label="A golden rupee surrounded by floating tax, GST, invoice, accounting and security documents">
+                <div class="ecosystem-particles" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="ecosystem-stage" aria-hidden="true">
+                    <div class="ecosystem-light"></div>
+                    <div class="ecosystem-rupee"><span>₹</span></div>
+                    <div class="tax-float object-itr">
+                        <div class="tax-document">
+                            <span class="document-kicker">INCOME TAX</span>
+                            <strong>ITR</strong>
+                            <span class="document-status"><i class="fas fa-circle-check"></i> Filing ready</span>
+                            <span class="document-lines"><i></i><i></i><i></i></span>
+                        </div>
+                    </div>
+                    <div class="tax-float object-gst">
+                        <div class="tax-document gst-document">
+                            <span class="document-kicker">COMPLIANCE</span>
+                            <strong>GST</strong>
+                            <span class="document-status"><i class="fas fa-check"></i> Returns</span>
+                            <span class="document-lines"><i></i><i></i><i></i></span>
+                        </div>
+                    </div>
+                    <div class="tax-float object-calculator">
+                        <div class="tax-calculator">
+                            <span class="calculator-brand">FINANCE</span>
+                            <span class="calculator-display"><span>₹ 24,850</span><span>₹ 26,420</span></span>
+                            <span class="calculator-keys"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                        </div>
+                    </div>
+                    <div class="tax-float object-invoice">
+                        <div class="tax-document invoice-document">
+                            <span class="document-kicker">INVOICE</span>
+                            <strong># TB-2048</strong>
+                            <span class="invoice-total">₹ 18,500</span>
+                            <span class="document-lines"><i></i><i></i><i></i></span>
+                        </div>
+                    </div>
+                    <div class="tax-float object-analytics">
+                        <div class="analytics-card">
+                            <span class="document-kicker">OVERVIEW</span>
+                            <strong>Growth <span>+18.6%</span></strong>
+                            <svg viewBox="0 0 120 48" focusable="false" aria-hidden="true">
+                                <path class="chart-area" d="M2 42 23 32 41 36 62 20 80 25 101 8 118 12V48H2Z"></path>
+                                <path class="chart-line" d="m2 42 21-10 18 4 21-16 18 5 21-17 17 4"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="tax-float object-folder">
+                        <div class="tax-folder">
+                            <span class="folder-tab"></span>
+                            <span class="folder-documents"><i></i><i></i><i></i></span>
+                            <span class="folder-front"></span>
+                            <i class="fas fa-folder"></i>
+                            <span>Tax documents</span>
+                        </div>
+                    </div>
+                    <div class="tax-float object-shield">
+                        <div class="tax-shield"><i class="fas fa-check"></i></div>
+                    </div>
+                    <div class="tax-float object-coins">
+                        <div class="coin-stack"><i></i><i></i><i></i></div>
+                    </div>
+                </div>
+                <div class="ecosystem-transactions" aria-hidden="true">
+                    <span class="transaction-receipt"><i class="fas fa-receipt"></i> GST receipt <b>₹ 2,450</b></span>
+                    <span class="transaction-payment"><i class="fas fa-credit-card"></i> Secure payment</span>
+                    <span class="transaction-toast"><i class="fas fa-circle-check"></i> ₹ 2,450 received</span>
+                    <span class="transaction-calculation"><i class="fas fa-file-invoice-dollar"></i> Tax estimate <b>Ready</b></span>
+                </div>
+                <p class="ecosystem-caption">SMART TAX MANAGEMENT <span>ITR <i></i> GST <i></i> FINANCE</span></p>
+            </div>
+            <a class="scroll-cue" href="#about" aria-label="Scroll to About Us"><span></span></a>
+        </section>
+
+        <section class="section about-section" id="about">
+            <div class="section-inner about-grid reveal">
+                <div class="section-kicker">
+                    <p class="eyebrow eyebrow-dark"><span></span> About Us</p>
+                    <h2>Clear guidance for your financial responsibilities.</h2>
+                </div>
+                <div class="about-copy">
+                    <p>
+                        {{ company_name }} is a tax consultancy and accounting services business
+                        supporting individuals and organizations with their tax and financial
+                        documentation needs.
+                    </p>
+                    <p>
+                        We focus on dependable assistance, organized processes and clear communication
+                        throughout each service.
+                    </p>
+                    <a class="text-link" href="#services">Discover how we can help <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section services-section" id="services">
+            <div class="section-inner">
+                <div class="section-heading reveal">
+                    <p class="eyebrow eyebrow-dark"><span></span> Our Services</p>
+                    <h2>Support for every step of your tax journey.</h2>
+                    <p>Explore our tax, accounting and documentation services.</p>
+                </div>
+                <div class="service-grid">
+                    <article class="service-card reveal">
+                        <div class="service-icon"><i class="fas fa-file-invoice"></i></div>
+                        <span class="service-number">01</span>
+                        <h3>Income Tax Return (ITR) Filing</h3>
+                        <p>Assistance with preparing and filing income tax returns and related information.</p>
+                    </article>
+                    <article class="service-card reveal">
+                        <div class="service-icon"><i class="fas fa-receipt"></i></div>
+                        <span class="service-number">02</span>
+                        <h3>GST Services</h3>
+                        <p>Support with GST-related compliance, documentation and filing requirements.</p>
+                    </article>
+                    <article class="service-card reveal">
+                        <div class="service-icon"><i class="fas fa-book-open"></i></div>
+                        <span class="service-number">03</span>
+                        <h3>Accounting &amp; Bookkeeping</h3>
+                        <p>Structured bookkeeping and accounting assistance for organized financial records.</p>
+                    </article>
+                    <article class="service-card reveal">
+                        <div class="service-icon"><i class="fas fa-comments"></i></div>
+                        <span class="service-number">04</span>
+                        <h3>Tax Consultancy</h3>
+                        <p>Professional guidance to help you understand tax matters and related obligations.</p>
+                    </article>
+                    <article class="service-card reveal">
+                        <div class="service-icon"><i class="fas fa-folder-open"></i></div>
+                        <span class="service-number">05</span>
+                        <h3>Financial Documentation</h3>
+                        <p>Help preparing and organizing documents needed for tax and financial processes.</p>
+                    </article>
+                    <article class="service-card reveal">
+                        <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+                        <span class="service-number">06</span>
+                        <h3>Tax Planning</h3>
+                        <p>Thoughtful tax planning assistance based on your requirements and circumstances.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-section" id="why-us">
+            <div class="section-inner why-grid reveal">
+                <div class="why-intro">
+                    <p class="eyebrow"><span></span> Why Choose Us</p>
+                    <h2>Professional support, thoughtfully managed.</h2>
+                    <p>We aim to make tax and accounting processes more straightforward through attentive service and clear organization.</p>
+                    <a class="button button-light" href="{{ url_for('login') }}">Access Your Account <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                </div>
+                <div class="why-points">
+                    <div class="why-point">
+                        <span><i class="fas fa-user-tie" aria-hidden="true"></i></span>
+                        <div><h3>Professional Tax Assistance</h3><p>Get support for tax-related questions and filing needs.</p></div>
+                    </div>
+                    <div class="why-point">
+                        <span><i class="fas fa-list-check" aria-hidden="true"></i></span>
+                        <div><h3>Organized Documentation</h3><p>Keep important information and documentation structured.</p></div>
+                    </div>
+                    <div class="why-point">
+                        <span><i class="fas fa-handshake" aria-hidden="true"></i></span>
+                        <div><h3>Client-Focused Support</h3><p>Service shaped around your needs and clear communication.</p></div>
+                    </div>
+                    <div class="why-point">
+                        <span><i class="fas fa-gears" aria-hidden="true"></i></span>
+                        <div><h3>Efficient Service Management</h3><p>Coordinated workflows help keep the process moving.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section" id="contact">
+            <div class="section-inner contact-grid reveal">
+                <div>
+                    <p class="eyebrow eyebrow-dark"><span></span> Contact</p>
+                    <h2>Let’s take care of the details.</h2>
+                    <p>Reach out through the available contact details below to discuss your tax and accounting requirements.</p>
+                </div>
+                <div class="contact-details">
+                    {% if contact.address %}
+                    <div class="contact-item">
+                        <span class="contact-icon"><i class="fas fa-location-dot" aria-hidden="true"></i></span>
+                        <div><strong>Office</strong><p>{{ contact.address }}</p></div>
+                    </div>
+                    {% endif %}
+                    {% if contact.mobile %}
+                    <div class="contact-item">
+                        <span class="contact-icon"><i class="fas fa-phone" aria-hidden="true"></i></span>
+                        <div><strong>Phone</strong><a href="tel:{{ contact.mobile }}">{{ contact.mobile }}</a></div>
+                    </div>
+                    {% endif %}
+                    {% if contact.email %}
+                    <div class="contact-item">
+                        <span class="contact-icon"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+                        <div><strong>Email</strong><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></div>
+                    </div>
+                    {% endif %}
+                    {% if not contact.address and not contact.mobile and not contact.email %}
+                    <p class="contact-unavailable">Contact information is not currently available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="public-footer">
+        <div class="footer-main">
+            <div class="footer-brand">
+                <a class="public-brand" href="#home">
+                    <img src="{{ url_for('static', filename='images/tushar-borse-and-co-logo.jpeg') }}" alt="">
+                    <span>{{ company_name }}</span>
+                </a>
+                <p>Tax Consultancy and Accounting Services</p>
+            </div>
+            <div class="footer-links">
+                <strong>Quick Navigation</strong>
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#services">Our Services</a>
+                <a href="#why-us">Why Choose Us</a>
+                <a href="#contact">Contact</a>
+                <a href="{{ url_for('login') }}">Login</a>
+            </div>
+            <div class="footer-contact">
+                <strong>Contact</strong>
+                {% if contact.address %}<p><i class="fas fa-location-dot" aria-hidden="true"></i> {{ contact.address }}</p>{% endif %}
+                {% if contact.mobile %}<a href="tel:{{ contact.mobile }}"><i class="fas fa-phone" aria-hidden="true"></i> {{ contact.mobile }}</a>{% endif %}
+                {% if contact.email %}<a href="mailto:{{ contact.email }}"><i class="fas fa-envelope" aria-hidden="true"></i> {{ contact.email }}</a>{% endif %}
+                {% if not contact.address and not contact.mobile and not contact.email %}<p>Contact information is not currently available.</p>{% endif %}
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>{{ company_name }}</p>
+            <p>&copy; <span id="copyrightYear">{{ current_year }}</span> {{ company_name }}. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='js/public.js') }}" defer></script>
+</body>
+</html>

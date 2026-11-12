@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="application-name" content="Tushar Borse And Co.">
+    <meta name="description" content="Tushar Borse And Co. — Tax Consultant">
+    <meta name="theme-color" content="#181818">
+    <title>Tushar Borse And Co. | Tax Consultant</title>
+    <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='images/tushar-borse-and-co-logo.jpeg') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/tushar-borse-and-co-logo.jpeg') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="logo brand-logo">
+                    <img class="brand-logo-image" src="{{ url_for('static', filename='images/tushar-borse-and-co-logo.jpeg') }}" alt="Tushar Borse And Co. — Tax Consultant">
+                </div>
+                <p>Tax Consultant</p>
+            </div>
+            
+            <div class="login-options">
+                <div class="login-option active" data-type="admin">Admin Login</div>
+                <div class="login-option" data-type="staff">Staff Login</div>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <input type="hidden" id="user_type" name="user_type" value="admin">
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            
+            <a class="login-home-link" href="{{ url_for('index') }}">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Dashboard (Hidden until login) -->
+    <div id="dashboard" style="display: none;">
+        <header>
+            <div class="container header-container">
+                <div class="logo brand-logo">
+                    <img class="brand-logo-image" src="{{ url_for('static', filename='images/tushar-borse-and-co-logo.jpeg') }}" alt="">
+                    <div class="brand-copy">
+                        <h1>Tushar Borse And Co.</h1>
+                        <p>Tax Consultant</p>
+                    </div>
+                </div>
+                
+                <div class="user-info">
+                    <span class="dashboard-avatar" id="headerAdminAvatar" hidden aria-label="Admin profile picture">
+                        <img id="headerAdminAvatarImage" alt="">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                    </span>
+                    <div class="user-role" id="userRole">Admin</div>
+                    <span id="userName">Admin User</span>
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard container">
+            <div class="dashboard-header">
+                <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Open workspace navigation" aria-expanded="false" aria-controls="workspaceNav">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                <h2>Dashboard Overview</h2>
+                <button class="btn btn-primary" id="addClientBtn">
+                    <i class="fas fa-plus"></i> Add New Client
+                </button>
+            </div>
+
+            <div class="stats-container" id="statsContainer">
+                <!-- Stats will be loaded dynamically -->
+            </div>
+
+            <nav class="tabs" id="workspaceNav" aria-label="Dashboard navigation">
+                <div class="sidebar-brand">
+                    <img src="{{ url_for('static', filename='images/tushar-borse-and-co-logo.jpeg') }}" alt="Tushar Borse And Co.">
+                    <div class="sidebar-brand-copy">
+                        <strong>Tushar Borse And Co.</strong>
+                        <span>Tax Consultant</span>
+                    </div>
+                </div>
+                <div class="sidebar-heading">
+                    <span class="sidebar-heading-icon"><i class="fas fa-layer-group" aria-hidden="true"></i></span>
+                    <span>Workspace</span>
+                    <button class="sidebar-collapse-toggle" id="sidebarCollapseToggle" type="button" aria-label="Collapse workspace sidebar" aria-expanded="true">
+                        <i class="fas fa-angles-left" aria-hidden="true"></i>
+                    </button>
+                    <button class="mobile-nav-close" id="mobileNavClose" type="button" aria-label="Close workspace navigation">
+                        <i class="fas fa-xmark" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="sidebar-admin-profile" id="sidebarAdminProfile" hidden>
+                    <span class="sidebar-admin-avatar">
+                        <img id="sidebarAdminAvatarImage" alt="">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                    </span>
+                    <span class="sidebar-admin-copy">
+                        <strong>Tushar_Borse</strong>
+                        <small>Administrator</small>
+                    </span>
+                </div>
+                <div class="tab active" data-tab="clients"><i class="fas fa-users" aria-hidden="true"></i><span>Clients</span></div>
+                <div class="tab" data-tab="tasks"><i class="fas fa-list-check" aria-hidden="true"></i><span>Tasks</span></div>
+                <div class="tab" data-tab="invoices"><i class="fas fa-file-invoice-dollar" aria-hidden="true"></i><span>Invoices</span></div>
+                <div class="tab" data-tab="reports"><i class="fas fa-chart-pie" aria-hidden="true"></i><span>Reports</span></div>
+                <div class="tab" data-tab="remarks"><i class="fas fa-note-sticky" aria-hidden="true"></i><span>Remarks</span></div>
+                <div class="tab" data-tab="adminNotes"><i class="fas fa-book" aria-hidden="true"></i><span>My Notes</span></div>
+                <div class="tab" data-tab="staff"><i class="fas fa-user-group" aria-hidden="true"></i><span>Staff Management</span></div>
+                <div class="tab" data-tab="adminProfile" id="adminProfileNavTab" hidden><i class="fas fa-id-card" aria-hidden="true"></i><span>Profile</span></div>
+            </nav>
+
+            <!-- Clients Tab -->
+            <div class="tab-content active" id="clientsTab">
+                <div class="form-title">
+                    <h3>Client Management</h3>
+                    <div class="client-year-controls">
+                        <label for="clientFinancialYear">Financial Year</label>
+                        <select id="clientFinancialYear">
+                            <option value="all">All Financial Years</option>
+                        </select>
+                        <div class="search-box">
+                            <input type="search" id="searchClient" placeholder="Search by client name or contact number...">
+                        </div>
+                    </div>
+                </div>
+                <p class="client-year-count" id="clientYearCount" aria-live="polite">Loading client totals...</p>
+                
+                <div class="table-container">
+                    <table id="clientsTable">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Email</th>
+                                <th>PAN No.</th>
+                                <th>Phone</th>
+                                <th>Total Invoices</th>
+                                <th>Total Invoice Amount (₹)</th>
+                                <th>Financial Year</th>
+                                <th>Status</th>
+                                <th id="clientAssignedToHeader">Assigned To</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                            <!-- Clients will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tasks Tab -->
+            <div class="tab-content" id="tasksTab">
+                <div class="form-title">
+                    <h3>Task Management</h3>
+                    <button class="btn btn-primary" id="assignTaskBtn">
+                        <i class="fas fa-tasks"></i> Assign New Task
+                    </button>
+                </div>
+
+                <div class="tasks-stats">
+                    <div class="task-stat-card">
+                        <div class="task-stat-icon pending">
+                            <i class="fas fa-hourglass-start"></i>
+                        </div>
+                        <div class="task-stat-info">
+                            <h4 id="pendingTasksCount">0</h4>
+                            <p>Pending Tasks</p>
+                        </div>
+                    </div>
+                    <div class="task-stat-card">
+                        <div class="task-stat-icon in-progress">
+                            <i class="fas fa-spinner"></i>
+                        </div>
+                        <div class="task-stat-info">
+                            <h4 id="inProgressTasksCount">0</h4>
+                            <p>In Progress</p>
+                        </div>
+                    </div>
+                    <div class="task-stat-card">
+                        <div class="task-stat-icon completed">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="task-stat-info">
+                            <h4 id="completedTasksCount">0</h4>
+                            <p>Completed</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="tasksTable">
+                        <thead>
+                            <tr>
+                                <th>Task Title</th>
+                                <th>Client</th>
+                                <th id="taskAssignedToHeader">Assigned To</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Due Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tasksTableBody">
+                            <!-- Tasks will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Invoices Tab -->
+            <div class="tab-content" id="invoicesTab">
+                <div class="form-title">
+                    <h3>Invoice Management</h3>
+                    <button class="btn btn-primary" id="createInvoiceBtn">
+                        <i class="fas fa-file-invoice"></i> Create Invoice
+                    </button>
+                    <div class="search-box">
+                        <input type="search" id="searchInvoice" placeholder="Search client or invoice number...">
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="invoicesTable">
+                        <thead>
+                            <tr>
+                                <th>Invoice No.</th>
+                                <th>Client Name</th>
+                                <th>Subtotal (₹)</th>
+                                <th>Discount (₹)</th>
+                                <th>Grand Total (₹)</th>
+                                <th>Date</th>
+                                <th>Payment</th>
+                                <th>Approval</th>
+                                <th>WhatsApp</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoicesTableBody">
+                            <!-- Invoices will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div class="tab-content" id="reportsTab">
+                <div class="form-title">
+                    <h3>Reports & Analytics</h3>
+                    <div class="report-actions">
+                        <label for="reportFinancialYear">Financial Year</label>
+                        <select id="reportFinancialYear">
+                            <option value="all">All Financial Years</option>
+                        </select>
+                        <button class="btn btn-secondary" id="exportReportPdfBtn" type="button">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="btn btn-primary" id="exportReportExcelBtn" type="button">
+                            <i class="fas fa-file-excel"></i> Export Excel
+                        </button>
+                        <button class="btn btn-warning" id="generateReportBtn" type="button">
+                            <i class="fas fa-chart-bar"></i> Generate Report
+                        </button>
+                    </div>
+                </div>
+
+                <div class="report-summary-grid" id="reportSummaryCards" aria-live="polite">
+                    <div class="report-summary-card">
+                        <span>Total Invoice Amount</span>
+                        <strong id="reportTotalInvoiceAmount">INR 0.00</strong>
+                    </div>
+                    <div class="report-summary-card">
+                        <span>Total Paid Amount</span>
+                        <strong id="reportTotalPaidAmount">INR 0.00</strong>
+                    </div>
+                    <div class="report-summary-card">
+                        <span>Total Pending Amount</span>
+                        <strong id="reportTotalPendingAmount">INR 0.00</strong>
+                    </div>
+                    <div class="report-summary-card">
+                        <span>Total GST</span>
+                        <strong id="reportTotalGst">INR 0.00</strong>
+                    </div>
+                    <div class="report-summary-card">
+                        <span>Total Invoices</span>
+                        <strong id="reportTotalInvoices">0</strong>
+                    </div>
+                    <div class="report-summary-card">
+                        <span>Total Clients</span>
+                        <strong id="reportTotalClients">0</strong>
+                    </div>
+                </div>
+                <p class="report-summary-error" id="reportSummaryError" role="alert" hidden></p>
+
+                <section class="report-remarks-panel" aria-labelledby="reportRemarksTitle">
+                    <h4 id="reportRemarksTitle">Staff Remarks</h4>
+                    <p class="report-remarks-note">Remarks are attached to clients; invoice numbers list that client's active invoices in the selected financial year.</p>
+                    <p class="report-remarks-error" id="reportRemarksError" role="alert" hidden></p>
+                    <div class="table-container">
+                        <table class="report-remarks-table">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Related Invoice(s)</th>
+                                    <th>Staff Member</th>
+                                    <th>Remark Date</th>
+                                    <th>Remark Time</th>
+                                    <th>Category</th>
+                                    <th>Remark</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportRemarksTableBody">
+                                <tr><td colspan="7" class="remarks-empty">Loading staff remarks...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="report-remarks-panel referral-report-section" id="referralReportSection" aria-labelledby="referralReportTitle">
+                    <div class="referral-report-heading">
+                        <div>
+                            <h4 id="referralReportTitle">Client Referral Report</h4>
+                            <p class="report-remarks-note">Referral records are based only on the referrer confirmed during client registration.</p>
+                        </div>
+                        <div class="report-actions referral-report-actions">
+                            <label for="referralClientSearch">Client</label>
+                            <input type="search" id="referralClientSearch" maxlength="100" placeholder="Search either client name...">
+                            <label for="referralFinancialYear">Financial Year</label>
+                            <select id="referralFinancialYear">
+                                <option value="all">All Financial Years</option>
+                            </select>
+                            <button class="btn btn-secondary" id="exportReferralPdfBtn" type="button">
+                                <i class="fas fa-file-pdf" aria-hidden="true"></i> Export PDF
+                            </button>
+                            <button class="btn btn-primary" id="exportReferralExcelBtn" type="button">
+                                <i class="fas fa-file-excel" aria-hidden="true"></i> Export Excel
+                            </button>
+                        </div>
+                    </div>
+                    <div class="report-summary-grid referral-summary-grid" aria-live="polite">
+                        <div class="report-summary-card">
+                            <span>Total Referring Clients</span>
+                            <strong id="referralTotalReferrers">0</strong>
+                        </div>
+                        <div class="report-summary-card">
+                            <span>Total Referred Clients</span>
+                            <strong id="referralTotalReferred">0</strong>
+                        </div>
+                        <div class="report-summary-card">
+                            <span>Most Referrals by Client</span>
+                            <strong id="referralTopClient">—</strong>
+                        </div>
+                    </div>
+                    <p class="report-remarks-error" id="referralReportError" role="alert" hidden></p>
+                    <div class="referral-year-summary">
+                        <h5>Financial Year-wise Referrals</h5>
+                        <div class="table-container">
+                            <table class="report-remarks-table">
+                                <thead>
+                                    <tr><th>Financial Year</th><th>Total Referrals</th></tr>
+                                </thead>
+                                <tbody id="referralYearSummaryBody">
+                                    <tr><td colspan="2" class="remarks-empty">Loading referral totals...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="report-remarks-table referral-details-table">
+                            <thead>
+                                <tr>
+                                    <th>Original Client (Referrer)</th>
+                                    <th>Referred Client</th>
+                                    <th>Total Referrals by Client</th>
+                                    <th>Referral Date</th>
+                                    <th>Financial Year</th>
+                                </tr>
+                            </thead>
+                            <tbody id="referralReportTableBody">
+                                <tr><td colspan="5" class="remarks-empty">Loading referral records...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <div class="reports-container">
+                    <div class="report-card">
+                        <h4>Monthly Summary</h4>
+                        <div id="monthlyChart"></div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h4>Status Distribution</h4>
+                        <div id="statusChart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remarks Tab -->
+            <div class="tab-content" id="remarksTab">
+                <div class="form-title">
+                    <h3>Client Remarks</h3>
+                </div>
+                <div class="remarks-filters">
+                    <input type="search" id="remarkClientFilter" placeholder="Search client name...">
+                    <input type="search" id="remarkStaffFilter" placeholder="Search staff name...">
+                    <select id="remarkCategoryFilter" aria-label="Filter by remark category">
+                        <option value="">All Categories</option>
+                        <option>ITR Return Pending</option>
+                        <option>Documents Pending</option>
+                        <option>Payment Pending</option>
+                        <option>Client Information Required</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table id="remarksTable">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>PAN Number</th>
+                                <th id="remarkStaffHeader" class="admin-remark-column">Staff Name</th>
+                                <th id="remarkInvoicesHeader" class="admin-remark-column">Related Invoice(s)</th>
+                                <th>Category</th>
+                                <th>Remark</th>
+                                <th id="remarkLastUpdatedHeader">Last Updated</th>
+                                <th id="remarkDateHeader" class="admin-remark-column">Remark Date</th>
+                                <th id="remarkTimeHeader" class="admin-remark-column">Remark Time</th>
+                                <th id="remarkActionsHeader" class="staff-remark-column">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="remarksTableBody">
+                            <tr><td colspan="10" style="text-align: center; padding: 20px; color: #999;">Loading remarks...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Admin Private Notes Tab -->
+            <div class="tab-content" id="adminNotesTab">
+                <div class="form-title">
+                    <h3>My Private Notes</h3>
+                    <button class="btn btn-primary" id="createAdminNoteBtn" type="button">
+                        <i class="fas fa-plus"></i> New Note
+                    </button>
+                </div>
+                <div class="admin-notes-layout">
+                    <aside class="admin-notes-sidebar" aria-label="Saved notes">
+                        <label class="sr-only" for="adminNoteSearch">Search notes</label>
+                        <input id="adminNoteSearch" type="search" placeholder="Search notes...">
+                        <p id="adminNotesListStatus" class="admin-notes-list-status" aria-live="polite"></p>
+                        <div id="adminNotesList" class="admin-notes-list" role="list"></div>
+                    </aside>
+                    <section class="admin-note-editor" aria-label="Note editor">
+                        <div class="admin-note-editor-header">
+                            <span id="adminNoteSaveStatus" role="status" aria-live="polite">Select a note or create one.</span>
+                            <button class="btn btn-danger" id="deleteAdminNoteBtn" type="button" disabled>
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                        <input id="adminNoteTitle" type="text" maxlength="200" placeholder="Note title" disabled>
+                        <textarea id="adminNoteContent" maxlength="50000" placeholder="Start writing..." disabled></textarea>
+                    </section>
+                </div>
+            </div>
+
+            <section class="tab-content admin-profile-page" id="adminProfileTab" aria-labelledby="adminProfileTitle">
+                <div class="form-title">
+                    <div>
+                        <span class="profile-eyebrow">ACCOUNT SETTINGS</span>
+                        <h3 id="adminProfileTitle">Admin Profile</h3>
+                    </div>
+                </div>
+                <p class="admin-profile-notice" id="adminProfileNotice" role="status" aria-live="polite"></p>
+                <div class="admin-profile-grid">
+                    <section class="admin-profile-card admin-picture-card" aria-labelledby="profilePictureTitle">
+                        <div class="profile-card-heading">
+                            <span class="profile-section-icon"><i class="fas fa-camera" aria-hidden="true"></i></span>
+                            <div>
+                                <h4 id="profilePictureTitle">Profile picture</h4>
+                                <p>Your private account photo</p>
+                            </div>
+                        </div>
+                        <div class="profile-picture-preview" id="adminProfilePicturePreview">
+                            <img id="adminProfilePicture" alt="Admin profile picture" hidden>
+                            <i class="fas fa-user" id="adminProfilePictureFallback" aria-hidden="true"></i>
+                        </div>
+                        <input id="adminProfilePictureInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+                        <div class="profile-picture-actions">
+                            <button class="btn btn-primary" id="changeAdminPictureBtn" type="button">Change picture</button>
+                            <button class="btn btn-secondary" id="removeAdminPictureBtn" type="button">Remove</button>
+                        </div>
+                        <p class="profile-help-text">JPEG, PNG or WebP; maximum 5 MB.</p>
+                    </section>
+
+                    <section class="admin-profile-card" aria-labelledby="personalInfoTitle">
+                        <div class="profile-card-heading">
+                            <span class="profile-section-icon"><i class="fas fa-address-card" aria-hidden="true"></i></span>
+                            <div>
+                                <h4 id="personalInfoTitle">Personal information</h4>
+                                <p>Update your contact details</p>
+                            </div>
+                        </div>
+                        <form id="adminProfileForm" class="admin-profile-form" novalidate>
+                            <div class="form-group">
+                                <label for="adminProfileUsername">Admin username</label>
+                                <input id="adminProfileUsername" value="Tushar_Borse" readonly aria-readonly="true">
+                                <small class="profile-help-text">This administrator username is fixed.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="adminProfileEmail">Email address</label>
+                                <input id="adminProfileEmail" type="email" maxlength="254" autocomplete="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="adminProfileContact">Contact number</label>
+                                <input id="adminProfileContact" type="tel" inputmode="tel" maxlength="16" autocomplete="tel" pattern="(?:\+?91\s?)?[6-9][0-9]{9}" required>
+                            </div>
+                            <div class="profile-form-actions">
+                                <button class="btn btn-primary" type="submit">Save changes</button>
+                                <button class="btn btn-secondary" id="cancelAdminProfileBtn" type="button">Cancel</button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <section class="admin-profile-card admin-security-card" aria-labelledby="profileSecurityTitle">
+                        <div class="profile-card-heading">
+                            <span class="profile-section-icon"><i class="fas fa-shield-halved" aria-hidden="true"></i></span>
+                            <div>
+                                <h4 id="profileSecurityTitle">Security</h4>
+                                <p>Change your account password</p>
+                            </div>
+                        </div>
+                        <form id="adminPasswordForm" class="admin-profile-form" novalidate>
+                            <div class="form-group">
+                                <label for="adminCurrentPassword">Current password</label>
+                                <input id="adminCurrentPassword" type="password" autocomplete="current-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="adminNewPassword">New password</label>
+                                <input id="adminNewPassword" type="password" minlength="12" maxlength="128" autocomplete="new-password" required>
+                                <small class="profile-help-text">Use at least 12 characters with uppercase, lowercase and a number.</small>
+                            </div>
+                            <div class="profile-form-actions">
+                                <button class="btn btn-primary" type="submit">Update password</button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </section>
+
+        <!-- Staff Management Tab -->
+        <div class="tab-content" id="staffTab">
+            <div class="form-title">
+                <h3>Staff Management</h3>
+                <button class="btn btn-success" id="addStaffBtn">
+                    <i class="fas fa-user-plus"></i> Add Staff
+                </button>
+            </div>
+            <div class="table-container">
+                <table id="staffTable">
+                    <thead>
+                        <tr>
+                            <th>Staff Name</th>
+                            <th>Email</th>
+                            <th>Contact Number</th>
+                            <th>Account Status</th>
+                            <th>Assigned Clients</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="staffTableBody">
+                        <!-- Staff accounts will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Staff Account Modal -->
+    <div id="staffModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="staffModalTitle">Add Staff Account</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="staffForm">
+                    <input type="hidden" id="staffId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="staffFullName">Staff Full Name *</label>
+                            <input type="text" id="staffFullName" required maxlength="120">
+                        </div>
+                        <div class="form-group">
+                            <label for="staffEmail">Email Address (Username) *</label>
+                            <input type="email" id="staffEmail" required maxlength="80">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="staffContact">Contact Number</label>
+                            <input type="tel" id="staffContact" maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="staffPassword">Password <span id="staffPasswordRequired">*</span></label>
+                            <input type="password" id="staffPassword" minlength="8" autocomplete="new-password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="staffConfirmPassword">Confirm Password <span id="staffConfirmRequired">*</span></label>
+                        <input type="password" id="staffConfirmPassword" minlength="8" autocomplete="new-password">
+                    </div>
+                    <p id="staffFormError" class="remark-error" role="alert"></p>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="saveStaffBtn">Create Staff Account</button>
+                        <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Client Modal -->
+    <div id="addClientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Client</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="clientForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clientName">Client Name *</label>
+                            <input type="text" id="clientName" name="client_name" maxlength="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clientEmail">Email</label>
+                            <input type="email" id="clientEmail" name="email" maxlength="120">
+                        </div>
+                    </div>
+
+                    <div id="clientDetailsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="clientDetailsTitle">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 id="clientDetailsTitle">Client Details</h3>
+                                <button type="button" class="close" aria-label="Close client details">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="clientDetailsContent" class="client-details-content"></div>
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary cancel-btn">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="panNumber">PAN Number</label>
+                            <input type="text" id="panNumber" name="pan_number" maxlength="10"
+                                pattern="[A-Za-z]{5}[0-9]{4}[A-Za-z]" title="Enter PAN in the format AAAAA9999A">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientPassword">Password</label>
+                            <input type="password" id="clientPassword" name="password">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clientPhone">Contact Number *</label>
+                            <input type="tel" id="clientPhone" name="phone" inputmode="numeric"
+                                pattern="[6-9][0-9]{9}" maxlength="10"
+                                title="Enter a valid 10-digit Indian mobile number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="referrerSearch">Referred By (Optional)</label>
+                            <input type="search" id="referrerSearch" placeholder="Search existing client names...">
+                            <select id="referrerClient" name="referred_by_id" aria-label="Select referring client">
+                                <option value="">Select a referrer or leave blank</option>
+                                <option value="none">Direct / No Referral</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clientStatus">Status</label>
+                            <select id="clientStatus" name="status">
+                                <option value="pending">Pending</option>
+                                <option value="found">Completed</option>
+                                <option value="not_found">Action Required</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="clientStaffAssignment">
+                            <label for="assignStaff">Assign to Staff</label>
+                            <select id="assignStaff" name="assigned_to">
+                                <option value="">Unassigned</option>
+                                <!-- Staff options will be populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <p id="clientFormError" class="remark-error" role="alert" aria-live="polite"></p>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="saveClientBtn">Save Client</button>
+                        <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff Client Remark Modal -->
+    <div id="remarkModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Client Notepad / Remark</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="remark-client-info">
+                    <p><strong>Client Name:</strong> <span id="remarkClientName"></span></p>
+                    <p><strong>PAN Number:</strong> <span id="remarkClientPan"></span></p>
+                </div>
+
+                <div class="remark-latest">
+                    <h4>Client Notes</h4>
+                    <div id="clientRemarkHistory" class="client-remark-history" aria-live="polite">
+                        <p>No notes have been added for this client yet.</p>
+                    </div>
+                </div>
+
+                <form id="remarkForm">
+                    <div class="form-group">
+                        <label for="remarkCategory">Remark Category</label>
+                        <select id="remarkCategory" name="category" required>
+                            <option>ITR Return Pending</option>
+                            <option>Documents Pending</option>
+                            <option>Payment Pending</option>
+                            <option>Client Information Required</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="remarkText">Remark Details</label>
+                        <textarea id="remarkText" name="remark" rows="5" required
+                            placeholder="Describe the pending work or information needed..."></textarea>
+                    </div>
+                    <div class="remark-examples">
+                        <strong>Examples:</strong>
+                        <ul>
+                            <li>ITR return pending because Form 16 has not been received.</li>
+                            <li>Aadhaar card copy is pending.</li>
+                            <li>Bank statement for FY 2025-26 is required.</li>
+                            <li>Client has not provided the required investment details.</li>
+                            <li>Additional documents are required before filing the ITR.</li>
+                        </ul>
+                    </div>
+                    <p id="remarkError" class="remark-error" role="alert"></p>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="saveRemarkBtn">Add Remark</button>
+                        <button type="button" class="btn btn-secondary" id="cancelRemarkEditBtn" hidden>Cancel Edit</button>
+                        <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="invoiceModalTitle">Create Invoice</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="invoiceForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="invoiceClient">Select Client *</label>
+                            <select id="invoiceClient" name="client_id" required>
+                                <!-- Client options will be populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="invoice-client-preview" id="invoiceClientPreview">
+                        <p id="invoiceClientPlaceholder">Select a client to load billing details.</p>
+                        <p id="invoiceClientName"></p>
+                        <p id="invoiceClientEmail"></p>
+                        <p id="invoiceClientPan"></p>
+                        <p id="invoiceClientPhone"></p>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="invoiceServiceDescription">Service Description *</label>
+                            <input type="text" id="invoiceServiceDescription" name="service_description" maxlength="250"
+                                value="Income Tax Filing & Documentation Services" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="invoiceAmount">Subtotal (₹) *</label>
+                            <input type="number" id="invoiceAmount" name="amount" step="0.01" min="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="invoiceDiscountType">Discount Type</label>
+                            <select id="invoiceDiscountType" name="discount_type">
+                                <option value="percentage">Percentage (%)</option>
+                                <option value="fixed">Fixed Amount (₹)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label id="invoiceDiscountValueLabel" for="invoiceDiscountValue">Discount Value (%)</label>
+                            <input type="number" id="invoiceDiscountValue" name="discount_value"
+                                step="0.01" min="0" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="invoiceDiscountAmountPreview">Discount Amount</label>
+                            <input type="text" id="invoiceDiscountAmountPreview" value="₹0.00" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="invoiceSubtotalPreview">Subtotal</label>
+                            <input type="text" id="invoiceSubtotalPreview" value="₹0.00" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="invoiceTotalPreview">Grand Total</label>
+                            <input type="text" id="invoiceTotalPreview" value="₹0.00" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="invoiceReceivedAmount">Received Amount (₹)</label>
+                            <input type="number" id="invoiceReceivedAmount" name="received_amount" step="0.01" min="0" value="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="invoiceBalancePreview">Balance Amount</label>
+                            <input type="text" id="invoiceBalancePreview" value="₹0.00" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="invoiceStatus">Payment Status</label>
+                            <select id="invoiceStatus" name="status">
+                                <option value="pending">Pending</option>
+                                <option value="paid">Paid</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="saveInvoiceDraftBtn">Save as Draft</button>
+                        <button type="submit" class="btn btn-primary" id="generateInvoiceBtn">Generate for Review</button>
+                        <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    </div>
+                    <input type="hidden" id="invoiceRequestToken">
+                    <input type="hidden" id="invoiceEditId">
+                    <input type="hidden" id="invoiceWorkflowStatus" value="pending_review">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Details Modal -->
+    <div id="invoiceDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Invoice Details</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="invoiceDetailsContent"></div>
+                <div class="form-group" id="invoiceStatusEditor" style="display: none;">
+                    <label for="invoiceDetailsStatus">Payment Status</label>
+                    <select id="invoiceDetailsStatus">
+                        <option value="pending">Pending</option>
+                        <option value="paid">Paid</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="saveInvoiceStatusBtn" style="display: none;">Save Status</button>
+                    <button type="button" class="btn btn-secondary cancel-btn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="invoiceReviewModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="invoiceReviewTitle">
+        <div class="modal-content invoice-review-modal">
+            <div class="modal-header">
+                <div>
+                    <h3 id="invoiceReviewTitle">Final Invoice Review</h3>
+                    <p class="invoice-review-subtitle" id="invoiceReviewHeading"></p>
+                </div>
+                <button type="button" class="close" aria-label="Close invoice review">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="invoice-review-summary" id="invoiceReviewSummary"></div>
+                <p class="invoice-review-preview-caption">Complete invoice preview, including bank details and payment QR codes.</p>
+                <iframe id="invoiceReviewPreview" title="Final invoice PDF preview"></iframe>
+                <div class="form-actions invoice-review-actions">
+                    <button type="button" class="btn btn-secondary" id="editReviewInvoiceBtn">Edit Invoice</button>
+                    <button type="button" class="btn btn-secondary" id="downloadReviewInvoiceBtn">Download PDF</button>
+                    <button type="button" class="btn btn-secondary" id="printReviewInvoiceBtn">Print Invoice</button>
+                    <button type="button" class="btn btn-secondary" id="markManualInvoiceSentBtn" hidden>Confirm Manually Sent</button>
+                    <button type="button" class="btn btn-primary" id="approveShareInvoiceBtn">Approve &amp; Send on WhatsApp</button>
+                </div>
+                <p class="invoice-review-note" id="invoiceReviewNote" role="status"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteInvoiceModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="deleteInvoiceTitle">
+        <div class="modal-content" style="max-width: 480px;">
+            <div class="modal-header">
+                <h3 id="deleteInvoiceTitle">Delete Invoice</h3>
+                <button type="button" class="close" aria-label="Close delete confirmation">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this invoice? This action cannot be undone.</p>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelDeleteInvoiceBtn">Cancel</button>
+                    <button type="button" class="action-btn delete" id="confirmDeleteInvoiceBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Assignment Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Assign New Task</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="taskForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskTitle">Task Title *</label>
+                            <input type="text" id="taskTitle" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskPriority">Priority *</label>
+                            <select id="taskPriority" name="priority" required>
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                                <option value="critical">Critical</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" id="taskStaffAssignment">
+                            <label for="taskAssignTo">Assign To Staff *</label>
+                            <select id="taskAssignTo" name="assigned_to" required>
+                                <!-- Staff options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskClient">Related Client</label>
+                            <select id="taskClient" name="client_id">
+                                <option value="">General Task</option>
+                                <!-- Client options will be populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskDueDate">Due Date</label>
+                            <input type="date" id="taskDueDate" name="due_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="taskStatus">Status</label>
+                            <select id="taskStatus" name="status">
+                                <option value="pending" selected>Pending</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="on_hold">On Hold</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDescription">Description</label>
+                        <textarea id="taskDescription" name="description" rows="4" placeholder="Enter task details..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Assign Task</button>
+                        <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

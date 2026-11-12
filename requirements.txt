@@ -1,0 +1,8 @@
+Flask
+Werkzeug
+psycopg[binary]
+psycopg_pool
+python-dotenv
+reportlab
+openpyxl
+Pillow
