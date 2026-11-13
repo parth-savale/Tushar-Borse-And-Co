@@ -32,7 +32,7 @@ from psycopg import IntegrityError
 from PIL import Image, UnidentifiedImageError
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=False)
 
 from database import execute, fetch_all, fetch_one, initialize_schema, transaction
 
@@ -143,14 +143,86 @@ def _validate_profile_csrf():
     return bool(expected and supplied and hmac.compare_digest(expected, supplied))
 
 
+def _valid_storage_hostname(hostname):
+    if not hostname or len(hostname) > 253:
+        return False
+    try:
+        hostname = hostname.encode('idna').decode('ascii')
+    except UnicodeError:
+        return False
+    if hostname.endswith('.'):
+        hostname = hostname[:-1]
+    return bool(hostname) and all(
+        0 < len(label) <= 63
+        and re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?', label)
+        for label in hostname.split('.')
+    )
+
+
 def _storage_credentials():
-    supabase_url = os.getenv('SUPABASE_URL', '').rstrip('/')
+    raw_supabase_url = os.getenv('SUPABASE_URL')
+    supabase_url = (raw_supabase_url or '').strip()
+    surrounding_whitespace = (
+        raw_supabase_url is not None
+        and raw_supabase_url != raw_supabase_url.strip()
+    )
+    surrounding_quotes = (
+        len(supabase_url) >= 2
+        and supabase_url[0] == supabase_url[-1]
+        and supabase_url[0] in ('"', "'")
+    )
+    if surrounding_quotes:
+        supabase_url = supabase_url[1:-1].strip()
+    trailing_slash = supabase_url.endswith('/')
+    supabase_url = supabase_url.rstrip('/')
+    starts_https = supabase_url.lower().startswith('https://')
+    url_parts = None
+    hostname = None
+    port = None
+    try:
+        url_parts = urllib.parse.urlsplit(supabase_url)
+        hostname = url_parts.hostname
+        port = url_parts.port
+    except ValueError:
+        url_parts = None
+        hostname = None
+        port = None
+    hostname_valid = _valid_storage_hostname(hostname)
+    url_valid = (
+        starts_https
+        and url_parts is not None
+        and url_parts.scheme.lower() == 'https'
+        and hostname_valid
+        and url_parts.username is None
+        and url_parts.password is None
+        and (port is None or 1 <= port <= 65535)
+        and url_parts.path in ('', '/')
+        and not url_parts.query
+        and not url_parts.fragment
+        and not any(ord(character) <= 32 or ord(character) == 127 for character in supabase_url)
+    )
+    if url_valid and url_parts is not None:
+        supabase_url = url_parts._replace(scheme='https').geturl()
     service_key = os.getenv('SUPABASE_SERVICE_ROLE_KEY', '').strip()
     if not service_key:
         secret_key_fallback = os.getenv('SECRET_KEY', '').strip()
         if secret_key_fallback.startswith('sb_secret_'):
             service_key = secret_key_fallback
-    if not supabase_url.startswith('https://'):
+    if not url_valid or not app.config.get('_SUPABASE_URL_DIAGNOSTIC_LOGGED'):
+        logger = app.logger.info if url_valid else app.logger.error
+        logger(
+            'Supabase Storage URL configuration: present=%s starts_https=%s '
+            'hostname_valid=%s surrounding_whitespace=%s surrounding_quotes=%s '
+            'trailing_slash_removed=%s',
+            raw_supabase_url is not None and bool(raw_supabase_url.strip()),
+            starts_https,
+            hostname_valid,
+            surrounding_whitespace,
+            surrounding_quotes,
+            trailing_slash,
+        )
+        app.config['_SUPABASE_URL_DIAGNOSTIC_LOGGED'] = True
+    if not url_valid:
         raise RuntimeError(
             'SUPABASE_URL must be configured as an HTTPS URL for private profile image storage.'
         )
@@ -513,6 +585,10 @@ def admin_profile_storage_diagnostic():
             'image/webp',
         )
         uploaded = True
+        stage = 'test_retrieval'
+        retrieved_bytes, _ = _read_profile_image(object_path)
+        if retrieved_bytes != image.getvalue():
+            raise RuntimeError('Supabase Storage returned different bytes for the test image.')
         stage = 'signed_url'
         _create_profile_image_signed_url(object_path)
     except RuntimeError as error:
@@ -548,6 +624,7 @@ def admin_profile_storage_diagnostic():
             'bucket_access': True,
             'private_bucket': True,
             'test_upload': True,
+            'test_retrieval': True,
             'signed_url': True,
             'test_object_removed': True,
         },
